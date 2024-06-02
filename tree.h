@@ -4,7 +4,7 @@
 
 using namespace std;
 
-bool double_equals(long double a,long double b,long double epsilon = 0.00001)
+bool double_equals(long double a,long double b,long double epsilon = 0.00000001)
 {
     return abs(a - b) < epsilon;
 }
@@ -12,7 +12,7 @@ bool double_equals(long double a,long double b,long double epsilon = 0.00001)
 class tree{
 public:
     int d,np,mass,nl,nr,c,check,inside;
-    vector<int> rinco,used,rindex;
+    vector<int> rinco,used,rindex,pointindex;
     vector<point *> points,subset,remsub;
     bool isleaf;
     long double r,tbalance,balance;
@@ -90,10 +90,11 @@ public:
         }
         points.clear();
     };
-    add(point* &a){//ToDo update mass and balance
+    add(point* &a,int vpi){//ToDo update mass and balance
         np++;
         mass++;
         points.push_back(new point(a));
+        pointindex.push_back(vpi);
 
         if(sep!=nullptr){//add point to all tree if it is already built
             const point *cen=sep->center;
@@ -103,9 +104,9 @@ public:
             if(td>=rs && td<=rs+2*r || double_equals(td,rs) ||double_equals(td,rs+2*r))mass++;
             if(td< rs+r || double_equals(td,rs+r)){
                 inside++;
-                lchild->add(a);
+                lchild->add(a,vpi);
             }
-            else rchild->add(a);
+            else rchild->add(a,vpi);
         }
     };
 
@@ -304,8 +305,8 @@ public:
         for(int i=0;i<np;i++){
             long double td=dist(cen,points[i]);
 
-            if(td< rs+r || double_equals(td,rs+r))lchild->add(points[i]);
-            else rchild->add(points[i]);
+            if(td< rs+r || double_equals(td,rs+r))lchild->add(points[i],pointindex[i]);
+            else rchild->add(points[i],pointindex[i]);
         }
     }
     void build_tree(){
@@ -352,5 +353,27 @@ public:
         printrec(fout);
         fout.close();
         return;
+    }
+    int query(const point* a,double e=0){
+        if(isleaf){
+            for(int i=0;i<np;i++){
+                if(dist(a,points[i])<=(1+e)*r)
+                    return pointindex[i];
+            }
+            return -1;
+        }
+        const point *cen=sep->center;
+        const long double rs=sep->rs;
+        long double td=dist(cen,a);
+
+        if(td>=rs && td<=rs+2*r || double_equals(td,rs) ||double_equals(td,rs+2*r)){
+            q1=lchild->query(a,e);
+            if(q1!=-1)return q1;
+            return rchild->query(a,e);
+        }
+        if(td< rs)){
+            return lchild->query(a,e);
+        }
+        else return rchild->query(a,e);
     }
 };

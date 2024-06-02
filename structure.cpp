@@ -16,6 +16,7 @@ int main(){
     ofstream fout("MnistProjection.txt");
     JL_printprojection(fout);
     */
+    /*
     vector<point*> dataset;
     ifstream fin("MnistProjection.txt");
     long double sq15=sqrt(15);
@@ -49,15 +50,15 @@ int main(){
     tree *root=new tree(15,mindist[599]);
 
     for(int i=0;i<sample;i++){
-        root->add(dataset[i]);
+        root->add(dataset[i],i);
     }
     root->findseploc();
     root->print();
     //root->build_tree();
     //root->printtofile("tree_20quant_sam1000.txt");
+*/
 
 
-/*
     long double adim[2]={3,2},bdim[2]={5,6},cdim[2]={1,4},ddim[2]={-1,-1},edim[2]={-2,6},fdim[2]={3,5},gdim[2]={5,3},hdim[2]={2,0},idim[2]={4,0},jdim[2]={1,-2},kdim[2]={-1,2},ldim[2]={4,-2};
     point *a=new point(2,adim);
     point *b=new point(2,bdim);
@@ -89,24 +90,23 @@ int main(){
     //sep->print();
     //cout<<endl<<endl;
 
-    tree *root=new tree("treestructure.txt");
-    /*
-    root->add(a);
-    root->add(b);
-    root->add(c);
-    root->add(d);
-    root->add(e);
-    root->add(f);
-    root->add(g);
-    root->add(h);
-    root->add(i);
-    root->add(j);
-    root->add(k);
-    root->add(l);
+    tree *root=new tree(2,0.5);
+
+    root->add(a,0);
+    root->add(b,1);
+    root->add(c,2);
+    root->add(d,3);
+    root->add(e,4);
+    root->add(f,5);
+    root->add(g,6);
+    root->add(h,7);
+    root->add(i,8);
+    root->add(j,9);
+    root->add(k,10);
+    root->add(l,11);
     root->build_tree();
 
     root->print();
-    //root->printtofile("treestructure.txt");
-    delete a,b;
-    */
+    root->printtofile("treestructure.txt");
+
 }
