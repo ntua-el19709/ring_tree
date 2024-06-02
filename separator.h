@@ -17,6 +17,12 @@ public:
     ~separator(){
         delete center;
     };
+    separator(int vd,long double vrs, long double vr, point* vc){
+        d=vd;
+        rs=vrs;
+        r=vr;
+        center=new point(vc);
+    }
     separator(int vd,const vector<point*> pts,const int *ooi,long double vr){//outorin=0 for inner 1 for central, 2 for outer
         vector<point*> points;
         int outorin[vd+1];
@@ -155,11 +161,11 @@ public:
         for(int i=0;i<=vd;i++)delete points[i];
         points.clear();
     };
-    void print(){
-        cout<<"center:"<<endl;
+    void print(ostream &out=cout){
+        out<<"center:"<<endl;
         for(int i=0;i<d;i++){
-            cout<<center->x[i]<<" ";
+            out<<fixed<<setprecision(20)<<center->x[i]<<" ";
         }
-        cout<<endl<<"R:"<<endl<<rs<<endl;
+        out<<endl<<"R:"<<endl<<fixed<<setprecision(20)<<rs<<endl;
     };
 };

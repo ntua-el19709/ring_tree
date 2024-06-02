@@ -31,20 +31,20 @@ public:
     ~point(){
         delete x;
     };
-    void print(){
-        cout<<"point: ";
+    void print(ostream &out=cout){
+        out<<"point: ";
         for(int i=0;i<d;i++){
-            cout<<x[i]<<" ";
+            out<<x[i]<<" ";
         }
-        cout<<endl;
+        out<<endl;
     };
 
-    friend void print(const point* a){
-        cout<<"point: ";
+    friend void print(const point* a,ostream &out=cout){
+        out<<"point: ";
         for(int i=0;i<a->d;i++){
-            cout<<a->x[i]<<" ";
+            out<<a->x[i]<<" ";
         }
-        cout<<endl;
+        out<<endl;
     };
 
     friend long double dist(const point* a, const point* b){
